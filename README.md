@@ -1,5 +1,5 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
-
+</details>
 D:.  
 │   .gitignore  
 │   requirements.txt  
@@ -83,4 +83,6 @@ D:.
         recording_compress.py  
         robot_camera_pose.json  
         Robot_Camera_pose.py  
+
+</details>
 
