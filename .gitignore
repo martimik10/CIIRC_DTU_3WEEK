@@ -6,6 +6,19 @@ __pycache__/
 # C extensions
 *.so
 
+
+#VSCODE
+.vscode/
+#NNs and datasets
+*.pt
+*.pth
+*.jpg
+*.jpeg
+*.gif
+*.png
+!Dataset/objects_masks_ordered/*.png
+!Dataset/objects_pictures_ordered/*.png
+
 # Distribution / packaging
 .Python
 build/
