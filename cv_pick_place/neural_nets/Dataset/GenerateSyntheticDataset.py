@@ -11,6 +11,7 @@ import json
 import matplotlib.image as mpimg
 from PIL import Image
 
+
 NUM_IMAGES_ALREADY_GENERATED = 0
 NUM_IMAGES_TO_GENERATE = 100
 IOU_THRESHOLD = 0.15
