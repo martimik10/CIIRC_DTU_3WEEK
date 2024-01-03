@@ -35,6 +35,7 @@ def dataset_check(generate_dataset = True,generate_video = False) ->bool:
             except Exception as e:
                 print('Failed to delete %s. Reason: %s' % (file_path, e))
                 return False
+        
         return True
     if(generate_video):
         return True

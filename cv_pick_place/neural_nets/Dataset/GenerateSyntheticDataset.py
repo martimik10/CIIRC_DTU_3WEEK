@@ -13,6 +13,9 @@ from PIL import Image
 from pathlib import Path
 
 CWD =os.getcwd()
+PATH_PICTURES= Path("cv_pick_place/neural_nets/dataset/objects_pictures_ordered")
+DATASET_DIRECTORY = os.path.join("cv_pick_place/neural_nets/dataset","GeneratedDataset/")
+PATH_MASKS = Path("cv_pick_place/neural_nets/dataset/objects_masks_ordered")
 NUM_IMAGES_ALREADY_GENERATED = 0
 NUM_IMAGES_TO_GENERATE = 100
 IOU_THRESHOLD = 0.15
@@ -351,7 +354,7 @@ def add_background(basic_background, real_background):
 
 def generate_image(object_mask_applied, object_name_list, object_mask_list):
     basic_background = 255 * np.ones(shape=(IMAGE_HEIGHT, IMAGE_WIDTH, 3))
-    BACKGROUND_PATH = os.path.join(Path("cv_pick_place/neural_nets/Dataset") ,Path("background.png"))
+    BACKGROUND_PATH = os.path.join(Path("cv_pick_place/neural_nets/dataset") ,Path("background.png"))
     real_background = reshape(cv2.imread(BACKGROUND_PATH), w=IMAGE_WIDTH, h=IMAGE_HEIGHT)
 
     number_objects = random.randint(1, MAX_OBJECTS)
@@ -480,17 +483,16 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
     
     #cv_pick_place\neural_nets\Dataset\objects_masks_ordered
     
-    PATH_PICTURES= Path("cv_pick_place/neural_nets/Dataset/objects_pictures_ordered")
+    
     
     # PATH_PICTURES = "objects_masks_ordered"
     
-    PATH_MASKS = Path("cv_pick_place/neural_nets/Dataset/objects_masks_ordered")
     pictures_names_list = sorted(os.listdir(os.path.join(CWD,PATH_PICTURES)))
     object_mask_applied_list = list()
     object_mask_list = list()
     object_name_list = list()
 
-    DATASET_DIRECTORY = os.path.join("cv_pick_place/neural_nets/Dataset","GeneratedDataset/")
+   
 
     try:
         os.mkdir(DATASET_DIRECTORY)
