@@ -10,8 +10,9 @@ import shutil
 import json
 import matplotlib.image as mpimg
 from PIL import Image
+from pathlib import Path
 
-
+CWD =os.getcwd()
 NUM_IMAGES_ALREADY_GENERATED = 0
 NUM_IMAGES_TO_GENERATE = 100
 IOU_THRESHOLD = 0.15
@@ -350,8 +351,8 @@ def add_background(basic_background, real_background):
 
 def generate_image(object_mask_applied, object_name_list, object_mask_list):
     basic_background = 255 * np.ones(shape=(IMAGE_HEIGHT, IMAGE_WIDTH, 3))
-
-    real_background = reshape(cv2.imread("background.png"), w=IMAGE_WIDTH, h=IMAGE_HEIGHT)
+    BACKGROUND_PATH = os.path.join(Path("cv_pick_place/neural_nets/Dataset") ,Path("background.png"))
+    real_background = reshape(cv2.imread(BACKGROUND_PATH), w=IMAGE_WIDTH, h=IMAGE_HEIGHT)
 
     number_objects = random.randint(1, MAX_OBJECTS)
 
@@ -476,15 +477,20 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
                     txt_file.write(line)
             txt_file.close()
             print("IMAGE NUMBER {} IS SAVED".format(image_num))
-
-    PATH_PICTURES = "objects_pictures_ordered/"
-    PATH_MASKS = "objects_masks_ordered/"
-    pictures_names_list = sorted(os.listdir(PATH_PICTURES))
+    
+    #cv_pick_place\neural_nets\Dataset\objects_masks_ordered
+    
+    PATH_PICTURES= Path("cv_pick_place/neural_nets/Dataset/objects_pictures_ordered")
+    
+    # PATH_PICTURES = "objects_masks_ordered"
+    
+    PATH_MASKS = Path("cv_pick_place/neural_nets/Dataset/objects_masks_ordered")
+    pictures_names_list = sorted(os.listdir(os.path.join(CWD,PATH_PICTURES)))
     object_mask_applied_list = list()
     object_mask_list = list()
     object_name_list = list()
 
-    DATASET_DIRECTORY = "GeneratedDataset/"
+    DATASET_DIRECTORY = os.path.join("cv_pick_place/neural_nets/Dataset","GeneratedDataset/")
 
     try:
         os.mkdir(DATASET_DIRECTORY)
@@ -501,8 +507,10 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
     for pict_name in pictures_names_list:
         mask_name = pict_name.split("_")[0] + "_" + pict_name.split("_")[1] + "_mask.png"
 
-        object_pict = cv2.imread(PATH_PICTURES + pict_name)
-        object_mask = cv2.imread(PATH_MASKS + mask_name) / 255
+        # object_pict = cv2.imread(PATH_PICTURES + pict_name)
+        object_pict =cv2.imread(os.path.join(PATH_PICTURES,pict_name))
+        object_mask =cv2.imread(os.path.join(PATH_MASKS,mask_name)) / 255
+        # object_mask = cv2.imread(PATH_MASKS + mask_name) / 255
         reshape_ratio = int(1080 / IMAGE_HEIGHT)
 
         reshaped_object_pict = reshape(object_pict, w=int(object_pict.shape[1] / reshape_ratio),

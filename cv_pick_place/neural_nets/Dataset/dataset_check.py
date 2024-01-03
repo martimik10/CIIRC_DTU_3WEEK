@@ -3,7 +3,7 @@ import os
 import shutil
 
 
-DATASET_ROOT_PATH="./GeneratedDataset"
+DATASET_ROOT_PATH=os.path.join("cv_pick_place/neural_nets/Dataset","GeneratedDataset")
 
 
 
@@ -14,9 +14,15 @@ def dataset_check(generate_dataset = True,generate_video = False) ->bool:
     generate video : generates video for validation 
     
     """
+
+    
     if(generate_dataset):
         if(os.path.isdir(DATASET_ROOT_PATH)):
              print("Deleting old dataset...")
+        else:
+            print("No data set found ")
+            
+            return True
         #remove the old dataset
         for filename in os.listdir(DATASET_ROOT_PATH):
             file_path = os.path.join(DATASET_ROOT_PATH, filename)
