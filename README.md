@@ -1,6 +1,9 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
-</details>
-D:.  
+<details>
+  <summary>Path</summary>
+
+  ```
+  D:.  
 │   .gitignore  
 │   requirements.txt  
 │   rob_env_dependencies.ipynb  
@@ -83,6 +86,9 @@ D:.
         recording_compress.py  
         robot_camera_pose.json  
         Robot_Camera_pose.py  
-
+  ```
 </details>
+
+
+
 
