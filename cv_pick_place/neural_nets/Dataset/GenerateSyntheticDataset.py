@@ -486,8 +486,11 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
     
     
     # PATH_PICTURES = "objects_masks_ordered"
-    
-    pictures_names_list = sorted(os.listdir(os.path.join(CWD,PATH_PICTURES)))
+
+    temp_join = os.path.join(CWD,PATH_PICTURES)
+    temp_listdir = os.listdir(temp_join)
+    pictures_names_list = sorted(temp_listdir)    
+    # pictures_names_list = sorted(os.listdir(os.path.join(CWD,PATH_PICTURES))) #default
     object_mask_applied_list = list()
     object_mask_list = list()
     object_name_list = list()
