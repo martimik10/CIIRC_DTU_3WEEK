@@ -17,19 +17,30 @@ from dataset.GenerateSyntheticDataset import generate_dataset
 EPOCHS = 30
 GENERATE_NR_IMAGES = 10
 
+def choose_model(runs_dir:str)->str:
+    """
+     return latest run from directory
+    """
+    dirs= list(os.walk(runs_dir))
+    
+    return dirs[0][1][-1]
+
+
+
+
 
 def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/data.yaml")):
         # Load already trained weights
-        print("LOL#############################")
+        
         try:
              os.path.isfile(yaml_data)
         except FileNotFoundError:
             print(f"Yaml file is missing {yaml_data}")
         ###########
-        if(dataset_check(generate_dataset=False)):
+        if(dataset_check(generate_dataset=True)):
              generate_dataset(GENERATE_NR_IMAGES,segmentation=mode=="Segment")
             #  shutil.copy("cv_pick_place/neural_nets/dataset/data.yaml", "cv_pick_place/neural_nets/dataset/GeneratedDataset/")
-        model_to_use = 'runs/detect/train5/weights/best.pt'  # use 'yolov8n.pt' to start fresh
+        model_to_use = f'runs/detect/{choose_model("runs/detect")}/weights/best.pt'  # use 'yolov8n.pt' to start fresh
         ###########
         
         #if windows put "/" before model_to_use 
@@ -59,5 +70,7 @@ def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/dat
         end = time.time()
         
         # Save the results
-        results['Epochs'] = EPOCHS
-        results['Time training'] = end - start
+        
+        # results['Epochs'] = EPOCHS
+        # results['Time training'] = end - start
+        print("Training finished")
