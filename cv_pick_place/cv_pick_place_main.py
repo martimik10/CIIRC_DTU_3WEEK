@@ -2,6 +2,8 @@ import os
 import json
 import argparse
 
+from pathlib import Path
+
 from multiprocessing import Process
 from multiprocessing import Manager
 from multiprocessing import Pipe
@@ -11,8 +13,10 @@ from mult_packets_pick_place import main_multi_packets
 from robot_cell.control.robot_control import RobotControl
 from robot_cell.control.robot_communication import RobotCommunication
 
+# CWD =os.getcwd()
+# ROB_CONFIG_FILE = os.path.join(CWD,"config/") 
+# ROB_CONFIG_FILE = os.path.join(ROB_CONFIG_FILE,Path("robot_config.json"))
 ROB_CONFIG_FILE = os.path.join("config", "robot_config.json")
-
 
 def bool_str(string: str) -> bool:
     """
