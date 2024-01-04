@@ -1,4 +1,5 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
+Ultralytics does not install pytorch with cuda by default
 <details>
   <summary>Path</summary>
 

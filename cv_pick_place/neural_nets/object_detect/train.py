@@ -12,18 +12,23 @@ import torch
 from dataset.dataset_check import dataset_check
 from dataset.GenerateSyntheticDataset import generate_dataset
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 EPOCHS = 30
 GENERATE_NR_IMAGES = 10
 
 
-def train(mode = "Segment",yaml_data = Path("cv_pick_place/neural_nets/dataset/GeneratedDataset/data.yaml")):
+def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/data.yaml")):
         # Load already trained weights
-        
+        print("LOL#############################")
+        try:
+             os.path.isfile(yaml_data)
+        except FileNotFoundError:
+            print(f"Yaml file is missing {yaml_data}")
         ###########
-        if(dataset_check()):
+        if(dataset_check(generate_dataset=False)):
              generate_dataset(GENERATE_NR_IMAGES,segmentation=mode=="Segment")
-             shutil.copy("cv_pick_place/neural_nets/dataset/data.yaml", "cv_pick_place/neural_nets/dataset/GeneratedDataset/")
+            #  shutil.copy("cv_pick_place/neural_nets/dataset/data.yaml", "cv_pick_place/neural_nets/dataset/GeneratedDataset/")
         model_to_use = 'runs/detect/train5/weights/best.pt'  # use 'yolov8n.pt' to start fresh
         ###########
         
@@ -41,8 +46,8 @@ def train(mode = "Segment",yaml_data = Path("cv_pick_place/neural_nets/dataset/G
         #check if using cuda
         if torch.cuda.is_available():
             print("Using GPU")
-            model.to(device)
-        
+            model.cuda()
+            
         
         start = time.time()
         # if curr_os == 'Windows':

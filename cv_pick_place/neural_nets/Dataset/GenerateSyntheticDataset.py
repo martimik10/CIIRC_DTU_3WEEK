@@ -534,5 +534,5 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
     generate_to_folder("val", int(0.2 * custom_num_images))
 
 
-if __name__ == "__main__":
-    generate_dataset()
+# if __name__ == "__main__":
+#     generate_dataset()
