@@ -2,7 +2,13 @@ TRAIN =True
 from object_detect.run import run
 from object_detect.train import train_detect
 
-if(TRAIN):
-    train_detect()
-else:
-    run()
+
+def main():
+    if(TRAIN):
+        train_detect()
+    else:
+        run()
+
+
+if __name__ == '__main__':
+    main()
