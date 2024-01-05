@@ -1,1 +1,2 @@
 1. změnit YAML tak, aby byl rozběhnutelný na jiném stroji
+2. přidat aby to nezapomínalo předchozí výsledky a zvyšovala se confidence ("TEMPORAL CONSISTENCY")
