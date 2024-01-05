@@ -15,15 +15,15 @@ from dataset.GenerateSyntheticDataset import generate_dataset
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 EPOCHS = 30
-GENERATE_NR_IMAGES = 220
-GENERATE_NW_DS=False
+GENERATE_NR_IMAGES = 10000
+GENERATE_NW_DS=True
 
 
 
 
 
 
-def train_detect(mode = "Segment",yaml_data = Path("data.yaml")):
+def train_detect(mode = "Segment",yaml_data = Path("cv_pick_place/neural_nets/data.yaml")):
         # Load already trained weights
         
         try:
@@ -32,7 +32,7 @@ def train_detect(mode = "Segment",yaml_data = Path("data.yaml")):
             print(f"Yaml file is missing {yaml_data}")
         ###########
         if(dataset_check(generate_dataset=GENERATE_NW_DS)):
-             generate_dataset(GENERATE_NR_IMAGES,segmentation=mode=="Segment")
+            generate_dataset(GENERATE_NR_IMAGES,segmentation=True)
         
         if(mode == "Detect"):
             model_to_use = f'runs/detect/train1/weights/best.pt'  # use 'yolov8n.pt' to start fresh
@@ -72,3 +72,5 @@ def train_detect(mode = "Segment",yaml_data = Path("data.yaml")):
         # results['Epochs'] = EPOCHS
         # results['Time training'] = end - start
         print("Training finished")
+
+    
