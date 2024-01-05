@@ -2,19 +2,19 @@
     "path_robot_positions": {
         "help": "Path to file with predefined robot positions.",
         "arg": "--path-robot-positions",
-        "default": "config/robot_positions.json"
+        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\robot_positions.json"
     },
 
     "path_homography_points": {
         "help": "Path to file defining world coordinates of april tags.",
         "arg": "--path-homography-points",
-        "default": "config/conveyor_points.json"
+        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\conveyor_points.json"
     },
 
     "path_camera_config": {
         "help": "Path to file containing camera configuration.",
         "arg": "--path-camera-config",
-        "default": "config/D435_camera_config.json"
+        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\D435_camera_config.json"
     },
 
     "mode": {
@@ -38,7 +38,7 @@
     "detector_type": {
         "help": "Selection of object detector. Valid values are 'NN1', 'NN2' and 'HSV'.",
         "arg": "--detector-type",
-        "default": "HSV"
+        "default": "NN2"
     },
 
     "verbose": {

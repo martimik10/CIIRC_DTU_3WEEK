@@ -7,6 +7,7 @@ import multiprocessing.managers
 # Third party libraries
 import cv2
 import numpy as np
+from ultralytics import YOLO
 
 # Local
 from robot_cell.control.control_state_machine import RobotStateMachine
@@ -22,6 +23,24 @@ from robot_cell.packet.grip_position_estimation import GripPositionEstimation
 from robot_cell.graphics_functions import drawText
 from robot_cell.graphics_functions import colorizeDepthFrame
 from robot_cell.graphics_functions import show_boot_screen
+
+
+
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (1750, 25)
+fontScale = 1
+fontColor = (0, 0, 255)
+thickness = 2
+lineType = 2
+prev_frame_time= 0
+
+MODEL_TO_USE = f'runs/detect/train/weights/best.pt'
+
+
+
+
+
 
 
 def packet_tracking(
@@ -362,7 +381,16 @@ def main_multi_packets(
         print("[INFO] NN1 detector started")
     elif rob_config.detector_type == "NN2":
         show_boot_screen("STARTING NEURAL NET...")
-        detector = None  # TODO: Implement new deep detector (init)
+               
+        try:
+            detector = YOLO(MODEL_TO_USE)
+        except FileNotFoundError:
+            print("Model not found, YoloV8n")
+            detector =None  
+
+
+
+
         print("[INFO] NN2 detector started")
     elif rob_config.detector_type == "HSV":
         detector = ThresholdDetector(
@@ -397,7 +425,7 @@ def main_multi_packets(
 
     # Set home position from dictionary on startup
     control_pipe.send(RcData(RcCommand.SET_HOME_POS))
-
+    prev_frame_time= 0
     while True:
         # Start timer for FPS estimation
         cycle_start_time = time.time()
@@ -483,9 +511,32 @@ def main_multi_packets(
                 packet.height = packet.height * frame_height
 
         # Detect packets using neural network
+       
+
         elif rob_config.detector_type == "NN2":
             # TODO: Implement new deep detector (detection)
+            
+            results = detector(image_frame)
+            annotated_frame = results[0].plot()
+            new_frame_time = time.time()
+            fps = 1 / (new_frame_time -  prev_frame_time)
+            prev_frame_time = new_frame_time
+            fps = str(int(fps))
+            cv2.putText(annotated_frame, 'FPS: ' + fps,
+                    bottomLeftCornerOfText,
+                    font,
+                    fontScale,
+                    fontColor,
+                    thickness,
+                    lineType)
+            
+
+            
+
+
+
             detected_packets = []
+            detected_packets.append(results)
 
         # Detect packets using HSV thresholding
         elif rob_config.detector_type == "HSV":
