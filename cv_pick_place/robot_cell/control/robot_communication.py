@@ -178,3 +178,4 @@ class RobotCommunication:
                 print("[ERROR]", e)
                 print("[INFO] OPCUA Data Server disconnected")
                 break
+
