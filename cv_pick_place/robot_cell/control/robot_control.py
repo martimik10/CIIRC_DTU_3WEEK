@@ -320,13 +320,13 @@ class RobotControl(RobotCommunication):
                 data = input.data
 
                 if command == RcCommand.GRIPPER:
-                    self.change_gripper_state()
+                    pass
 
                 elif command == RcCommand.CONVEYOR_LEFT:
-                    self.change_conveyor_left()
+                    pass
 
                 elif command == RcCommand.CONVEYOR_RIGHT:
-                    self.change_conveyor_right()
+                    pass
 
                 elif command == RcCommand.CONTINUE_PROGRAM:
                     self.continue_program()
@@ -366,5 +366,5 @@ class RobotControl(RobotCommunication):
 
             except Exception as e:
                 print("[ERROR]", e)
-                print("[INFO] OPCUA Control Server disconnected")
+                print("[INFO]: OPCUA Control Server disconnected")
                 break

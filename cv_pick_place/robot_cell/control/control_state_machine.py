@@ -392,7 +392,7 @@ class RobotStateMachine:
                 and robot_interrupted
             ):
                 self.cp.send(RcData(RcCommand.CONTINUE_PROGRAM))
-                self.cp.send(RcData(RcCommand.GRIPPER, False))
+                #self.cp.send(RcData(RcCommand.GRIPPER, False))
                 self.state = "READY"
                 if self.verbose:
                     print("[INFO]: Missed packet, State: READY")
