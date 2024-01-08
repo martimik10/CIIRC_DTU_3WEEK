@@ -7,7 +7,8 @@ import cv2
 from ultralytics.utils.plotting import Annotator
 from pathlib import Path
 
-from realsense_depth_test import DepthCamera
+from cv_pick_place.robot_cell.detection.realsense_depth import DepthCamera
+
 
 
 camera = DepthCamera(config_path=Path("C:/Users/Testbed/CIIRC_DTU_3WEEK_NEW/cv_pick_place/config/D435_camera_config.json"))
@@ -26,8 +27,7 @@ def run(frame,model):
             
 
 if __name__ == "__main__":
-    # model_to_use=model_to_use = f'runs/detect/train/weights/best.pt'
-    model_to_use=model_to_use = f'C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\utils\\best_segment_08_01.pt'
+    model_to_use=model_to_use = f'runs/detect/train/weights/best.pt'
 
     try:
         model = YOLO(model_to_use)
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     img_array =[]
     font = cv2.FONT_HERSHEY_SIMPLEX
-    bottomLeftCornerOfText = (0, 315)
+    bottomLeftCornerOfText = (1750, 25)
     fontScale = 1
     fontColor = (0, 0, 255)
     thickness = 2
