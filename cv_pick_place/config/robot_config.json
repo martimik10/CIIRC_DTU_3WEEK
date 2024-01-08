@@ -291,5 +291,11 @@
         "help": "List of 3 integer values representing Hue (0 to 179), Saturation (0 to 255), Value (0 to 255) of top threshold for brown color when using the HSV detector.",
         "arg": "--hsv-brown-upper",
         "default": [ 60, 255, 178 ]
+    },
+
+    "yolo_model_path": {
+        "help": "Path to model weights of the YOLOv8 model.",
+        "arg": "--yolo-model-path",
+        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\testing\\best_segment_08_01.pt"
     }
 }
