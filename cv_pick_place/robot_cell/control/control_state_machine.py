@@ -258,8 +258,8 @@ class RobotStateMachine:
         pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
         pick_pos_z -= 5
 
-        if pick_pos_z < 5:
-            pick_pos_z = 5
+        if pick_pos_z < 100:
+            pick_pos_z = 100
 
         # self._draw_depth_map(packet_to_pick, pick_pos_z, pick_point, shift_x, shift_y)
         # Change end points of robot
