@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 param[1]["arg"],
                 default=param[1]["default"],
                 dest=param[0],
-                help=param[1]["help"],
+                help=param[1]["help"],  
                 type=str,
             )
         else:

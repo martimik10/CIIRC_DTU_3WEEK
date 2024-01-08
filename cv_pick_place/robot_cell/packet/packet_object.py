@@ -236,7 +236,7 @@ class Packet:
             self.mask = mask
         else:
             if mask.shape != self.mask.shape:
-                print(f"[WARN]: Tried to average two uncompatible sizes")
+                # print(f"[WARN]: Tried to average two uncompatible sizes")
                 return
             self.mask = np.logical_and(mask, self.mask)
 

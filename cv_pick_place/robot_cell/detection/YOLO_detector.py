@@ -165,7 +165,7 @@ class YOLODetector:
         frame_width = rgb_frame.shape[1]
 
         # Get results from current frame
-        results = self.model(rgb_frame)[0]
+        results = self.model(rgb_frame, verbose=False)[0]
 
         for res in results:
 
@@ -188,7 +188,7 @@ class YOLODetector:
             self.detected_objects.append(packet)
 
         try:
-            bin_mask = mask.type(torch.bool)
+            bin_mask = mask.type(torch.bool).cpu().detach().numpy()
         except UnboundLocalError:
             bin_mask = np.zeros_like(image_frame).astype(bool)
 

@@ -185,18 +185,18 @@ def draw_frame(
                     text_size,
                 )
 
-    # # Draw packet depth crop to separate frame
-    # cv2.imshow("Depth Crop", np.zeros((650, 650)))
-    # for packet in registered_packets:
-    #     if packet.avg_depth_crop is not None:
-    #         depth_img = colorizeDepthFrame(packet.avg_depth_crop)
-    #         depth_img = cv2.resize(depth_img, (650, 650))
-    #         cv2.imshow("Depth Crop", depth_img)
-    #         break
+    # Draw packet depth crop to separate frame
+    cv2.imshow("Depth Crop", np.zeros((650, 650)))
+    for packet in registered_packets:
+        if packet.avg_depth_crop is not None:
+            depth_img = colorizeDepthFrame(packet.avg_depth_crop)
+            depth_img = cv2.resize(depth_img, (650, 650))
+            cv2.imshow("Depth Crop", depth_img)
+            break
 
-    # # Show depth frame overlay
-    # if toggles_dict["show_depth_map"]:
-    #     image_frame = cv2.addWeighted(image_frame, 0.8, colorized_depth, 0.8, 0)
+    # Show depth frame overlay
+    if toggles_dict["show_depth_map"]:
+        image_frame = cv2.addWeighted(image_frame, 0.8, colorized_depth, 0.8, 0)
 
     # Show FPS and robot position data
     if toggles_dict["show_frame_data"]:
