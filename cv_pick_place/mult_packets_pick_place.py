@@ -8,6 +8,7 @@ import multiprocessing.managers
 import cv2
 import numpy as np
 from ultralytics import YOLO
+from pathlib import Path
 
 # Local
 from robot_cell.control.control_state_machine import RobotStateMachine
@@ -17,6 +18,7 @@ from robot_cell.detection.realsense_depth import DepthCamera
 from robot_cell.detection.packet_detector import PacketDetector
 from robot_cell.detection.apriltag_detection import ProcessingApriltag
 from robot_cell.detection.threshold_detector import ThresholdDetector
+from robot_cell.detection.YOLO_detector import YOLODetector
 from robot_cell.packet.packet_object import Packet
 from robot_cell.packet.item_tracker import ItemTracker
 from robot_cell.packet.grip_position_estimation import GripPositionEstimation
@@ -136,7 +138,10 @@ def draw_frame(
             )
 
             # Draw packet ID and type
-            text_id = f"ID {packet.id}, Type {packet.type}"
+            if packet.class_name:
+                text_id = f"ID {packet.id}, Type {packet.type}, Class {packet.class_name}"
+            else: 
+                text_id = f"ID {packet.id}, Type {packet.type}"
             drawText(
                 image_frame,
                 text_id,
@@ -167,30 +172,31 @@ def draw_frame(
             )
 
             # Draw packet angle
-            packet_angle = packet.get_angle()
-            text_angle = f"Angle: {round(packet_angle, 2)} (deg)"
-            drawText(
-                image_frame,
-                text_angle,
-                (
-                    packet.centroid_px.x + 10,
-                    packet.centroid_px.y + int(115 * text_size),
-                ),
-                text_size,
-            )
+            if packet.get_angle():
+                packet_angle = packet.get_angle()
+                text_angle = f"Angle: {round(packet_angle, 2)} (deg)"
+                drawText(
+                    image_frame,
+                    text_angle,
+                    (
+                        packet.centroid_px.x + 10,
+                        packet.centroid_px.y + int(115 * text_size),
+                    ),
+                    text_size,
+                )
 
-    # Draw packet depth crop to separate frame
-    cv2.imshow("Depth Crop", np.zeros((650, 650)))
-    for packet in registered_packets:
-        if packet.avg_depth_crop is not None:
-            depth_img = colorizeDepthFrame(packet.avg_depth_crop)
-            depth_img = cv2.resize(depth_img, (650, 650))
-            cv2.imshow("Depth Crop", depth_img)
-            break
+    # # Draw packet depth crop to separate frame
+    # cv2.imshow("Depth Crop", np.zeros((650, 650)))
+    # for packet in registered_packets:
+    #     if packet.avg_depth_crop is not None:
+    #         depth_img = colorizeDepthFrame(packet.avg_depth_crop)
+    #         depth_img = cv2.resize(depth_img, (650, 650))
+    #         cv2.imshow("Depth Crop", depth_img)
+    #         break
 
-    # Show depth frame overlay
-    if toggles_dict["show_depth_map"]:
-        image_frame = cv2.addWeighted(image_frame, 0.8, colorized_depth, 0.8, 0)
+    # # Show depth frame overlay
+    # if toggles_dict["show_depth_map"]:
+    #     image_frame = cv2.addWeighted(image_frame, 0.8, colorized_depth, 0.8, 0)
 
     # Show FPS and robot position data
     if toggles_dict["show_frame_data"]:
@@ -379,14 +385,20 @@ def main_multi_packets(
             rob_config.nn1_detection_threshold,
         )
         print("[INFO] NN1 detector started")
+
     elif rob_config.detector_type == "NN2":
         show_boot_screen("STARTING NEURAL NET...")
                
         try:
-            detector = YOLO(MODEL_TO_USE)
+            detector = YOLODetector(
+                rob_config.hsv_ignore_vertical,
+                rob_config.hsv_ignore_horizontal,
+                rob_config.hsv_max_ratio_error,
+                Path(rob_config.yolo_model_path))
+            print("[INFO] NN2 detector started")
         except FileNotFoundError:
             print("Model not found, YoloV8n")
-            detector =None  
+            detector = None  
 
 
 
@@ -490,7 +502,7 @@ def main_multi_packets(
                 frame_count = 1
 
             # Set homography in HSV detector
-            if rob_config.detector_type == "HSV":
+            if rob_config.detector_type == "HSV" or rob_config.detector_type == "NN2":
                 detector.set_homography(homography)
 
         # PACKET DETECTION
@@ -514,29 +526,12 @@ def main_multi_packets(
        
 
         elif rob_config.detector_type == "NN2":
-            # TODO: Implement new deep detector (detection)
-            
-            results = detector(image_frame)
-            annotated_frame = results[0].plot()
-            new_frame_time = time.time()
-            fps = 1 / (new_frame_time -  prev_frame_time)
-            prev_frame_time = new_frame_time
-            fps = str(int(fps))
-            cv2.putText(annotated_frame, 'FPS: ' + fps,
-                    bottomLeftCornerOfText,
-                    font,
-                    fontScale,
-                    fontColor,
-                    thickness,
-                    lineType)
-            
-
-            
-
-
-
-            detected_packets = []
-            detected_packets.append(results)
+            image_frame, detected_packets, mask = detector.detect_packet_yolo(
+                rgb_frame,
+                encoder_pos,
+                toggles_dict["show_bbox"],
+                image_frame,
+            )
 
         # Detect packets using HSV thresholding
         elif rob_config.detector_type == "HSV":

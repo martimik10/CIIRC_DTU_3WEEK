@@ -34,6 +34,12 @@ class Packet:
         # Type of the packet
         self.type = None
 
+        # Class of the object for YOLOv8
+        self.predicted_class = None
+
+        # Class name of the object for YOLOv8
+        self.class_name = None
+
         # X Y centroid value in frame pixels,
         # of the position where the packet last last detected by the camera.
         # X increases from left to right.
@@ -121,6 +127,27 @@ class Packet:
         """
 
         self.type = packet_type
+
+    def set_class(self, predicted_class: int) -> None:
+        """
+        Sets packet class.
+
+        Args:
+            predicted_class (int): Integer representing class of the packet.
+        """
+
+        self.predicted_class = predicted_class
+
+
+    def set_class_name(self, class_name: str) -> None:
+        """
+        Sets packet class.
+
+        Args:
+            predicted_class (int): Integer representing class of the packet.
+        """
+
+        self.class_name = class_name
 
     def set_centroid(self, x: int, y: int) -> None:
         """

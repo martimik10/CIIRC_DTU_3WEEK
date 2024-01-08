@@ -84,7 +84,7 @@ class ItemTracker:
         tracked_item.homography_matrix = new_item.homography_matrix
         tracked_item.bounding_width_px = new_item.bounding_width_px
         tracked_item.bounding_height_px = new_item.bounding_height_px
-        tracked_item.add_angle_to_average(new_item.avg_angle_deg)
+        # tracked_item.add_angle_to_average(new_item.avg_angle_deg)
         tracked_item.set_base_encoder_position(encoder_pos)
         tracked_item.disappeared = 0
 
