@@ -2,19 +2,19 @@
     "path_robot_positions": {
         "help": "Path to file with predefined robot positions.",
         "arg": "--path-robot-positions",
-        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\robot_positions.json"
+        "default": "../cv_pick_place/config/robot_positions.json"
     },
 
     "path_homography_points": {
         "help": "Path to file defining world coordinates of april tags.",
         "arg": "--path-homography-points",
-        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\conveyor_points.json"
+        "default": "../cv_pick_place/config/conveyor_points.json"
     },
 
     "path_camera_config": {
         "help": "Path to file containing camera configuration.",
         "arg": "--path-camera-config",
-        "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\D435_camera_config.json"
+        "default": "../cv_pick_place/config/D435_camera_config.json"
     },
 
     "mode": {
