@@ -19,6 +19,7 @@ from robot_cell.detection.packet_detector import PacketDetector
 from robot_cell.detection.apriltag_detection import ProcessingApriltag
 from robot_cell.detection.threshold_detector import ThresholdDetector
 from robot_cell.detection.YOLO_detector import YOLODetector
+from robot_cell.detection.YOLO_detector_Kalman import YOLODetector_Kalman
 from robot_cell.packet.packet_object import Packet
 from robot_cell.packet.item_tracker import ItemTracker
 from robot_cell.packet.grip_position_estimation import GripPositionEstimation
@@ -36,11 +37,6 @@ fontColor = (0, 0, 255)
 thickness = 2
 lineType = 2
 prev_frame_time= 0
-
-MODEL_TO_USE = f'runs/detect/train/weights/best.pt'
-
-
-
 
 
 
@@ -394,16 +390,27 @@ def main_multi_packets(
                 rob_config.hsv_ignore_vertical,
                 rob_config.hsv_ignore_horizontal,
                 rob_config.hsv_max_ratio_error,
-                Path(rob_config.yolo_model_path))
+                Path(rob_config.yolo_model_path),
+                show_kalman_visuals=True)
             print("[INFO] NN2 detector started")
         except FileNotFoundError:
             print("Model not found, YoloV8n")
             detector = None  
+    
+    elif rob_config.detector_type == "NN3":
+        show_boot_screen("STARTING KALMAN NEURAL NET...")
+               
+        try:
+            detector = YOLODetector_Kalman(
+                rob_config.hsv_ignore_vertical,
+                rob_config.hsv_ignore_horizontal,
+                rob_config.hsv_max_ratio_error,
+                Path(rob_config.yolo_model_path))
+            print("[INFO] NN3 KALMAN detector started")
+        except FileNotFoundError:
+            print("Model not found, YoloV8n Kalman")
+            detector = None  
 
-
-
-
-        print("[INFO] NN2 detector started")
     elif rob_config.detector_type == "HSV":
         detector = ThresholdDetector(
             rob_config.hsv_ignore_vertical,
@@ -502,7 +509,7 @@ def main_multi_packets(
                 frame_count = 1
 
             # Set homography in HSV detector
-            if rob_config.detector_type == "HSV" or rob_config.detector_type == "NN2":
+            if rob_config.detector_type == "HSV" or rob_config.detector_type == "NN2" or rob_config.detector_type == "NN3":
                 detector.set_homography(homography)
 
         # PACKET DETECTION
@@ -526,6 +533,14 @@ def main_multi_packets(
        
 
         elif rob_config.detector_type == "NN2":
+            image_frame, detected_packets, mask = detector.detect_packet_yolo(
+                rgb_frame,
+                encoder_pos,
+                toggles_dict["show_bbox"],
+                image_frame,
+            )
+            
+        elif rob_config.detector_type == "NN3":
             image_frame, detected_packets, mask = detector.detect_packet_yolo(
                 rgb_frame,
                 encoder_pos,
