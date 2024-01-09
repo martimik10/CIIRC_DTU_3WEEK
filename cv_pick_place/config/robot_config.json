@@ -297,5 +297,11 @@
         "help": "Path to model weights of the YOLOv8 model.",
         "arg": "--yolo-model-path",
         "default": "C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\testing\\best_segment_08_01.pt"
+    },
+
+    "object_depths": {
+        "help": "List of depths of objects in millimeters of each class. Index coresponds to list of classes defined in ",
+        "arg": "--object-depths",
+        "default": [ 7.0, 5.0, 5.0, 7.0, 30.0, 25.0, 50.0, 35.0, 55.0, 30.0, 35.0, 45.0 ]
     }
 }
