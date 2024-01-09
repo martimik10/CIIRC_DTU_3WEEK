@@ -29,7 +29,7 @@ def bool_str(string: str) -> bool:
     Returns:
         bool: True, False, depending on contents of the string.
 
-    Raises:
+    Raises:ke
         argparse.ArgumentTypeError: Error in case the string does not contain any of the expected values.
     """
 

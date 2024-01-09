@@ -41,9 +41,10 @@ class YOLODetector_Kalman:
         self.CONFIDENCE_THRESHOLD
         
         # self.SHOW_KALMAN_VISUALS = show_kalman_visuals
-        self.SHOW_KALMAN_VISUALS = False
+        self.SHOW_KALMAN_VISUALS = True
         self.INIT_KALMAN_VISUALS = False
         
+        self.img_array =[]
         self.detected_objects = []
         self.homography_matrix = None
         self.homography_determinant = None
@@ -171,9 +172,9 @@ class YOLODetector_Kalman:
             list[Packet]: List of detected packets.
             np.ndarray: Binary detection mask.
         """
-
         self.detected_objects = []
 
+        #TODO uncomment
         if self.homography_determinant is None:
             print("[WARINING] ObjectDetector: No homography matrix set")
             return image_frame, self.detected_objects, None
@@ -208,7 +209,8 @@ class YOLODetector_Kalman:
         # TRACKING
         ######################################
         # update the tracker with the new detections
-        tracks = self.tracker.update_tracks(results, frame=kalman_img_frame)
+        tracks = self.tracker.update_tracks(kalman_results, frame=kalman_img_frame)
+        
         # loop over the tracks
         for track in tracks:
             # if the track is not confirmed, ignore it
@@ -248,8 +250,9 @@ class YOLODetector_Kalman:
                 cv2.putText(img_frame, str(track_id), (xmin + 5, ymin - 8),
                             fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=self.WHITE, thickness=1)
                 cv2.imshow("Kalman", img_frame)
+            
         
-        #############################################
+        ############################################# kalman end
 
         for res in results:
 

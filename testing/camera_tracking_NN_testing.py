@@ -17,7 +17,7 @@ CONFIDENCE_THRESHOLD = 0.9
 GREEN = (0, 255, 0)
 GREY = (211,211,211)
 WHITE = (255, 255, 255)
-MODEL_TO_USE = "best_segment_08_01.pt" #TODO change to relative when applicable
+MODEL_TO_USE = "best_detect_08_01.pt" #TODO change to relative when applicable
 REALSENSE_CFG_PATH = Path(__file__).parent.parent / "cv_pick_place" / "config" / "D435_camera_config.json"
 
 # get current directory, move above one step, then go to /congig
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     ################
     # Initialize opencv window
     ################
-    img_array =[]
+    # img_array =[]
     font = cv2.FONT_HERSHEY_SIMPLEX
     bottomLeftCornerOfText = (0, 315)
     fontScale = 1
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         cv2.resizeWindow("YOLOv8 Inference", 640*RESIZE_WINDOW_FACTOR, 320*RESIZE_WINDOW_FACTOR)
         
         cv2.imshow("YOLOv8 Inference", annotated_frame)
-        img_array.append(annotated_frame)
+        # img_array.append(annotated_frame)
 
 
         # Break the loop if 'q', 'ESC' or Close button is pressed
