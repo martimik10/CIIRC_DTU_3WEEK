@@ -245,7 +245,10 @@ class RobotStateMachine:
         # else:
         #     # No pick position has been found, skip packet
         #     return None
-        pick_pos_z = roll = pitch = yaw = 0
+        pick_pos_z = 0
+        roll = -90
+        pitch = 0
+        yaw = 180
 
         # Check if x is range
         pick_pos_x = np.clip(
@@ -304,6 +307,7 @@ class RobotStateMachine:
             # Start robot program
             self.cp.send(RcData(RcCommand.START_PROGRAM, True))
             self.previous_packet_type = trajectory_dict["packet_type"]
+            print(trajectory_dict)
 
         return packet_to_pick, trajectory_dict
 

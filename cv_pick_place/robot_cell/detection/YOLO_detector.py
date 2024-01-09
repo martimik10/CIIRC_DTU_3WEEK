@@ -89,6 +89,7 @@ class YOLODetector:
         packet.set_homography_matrix(self.homography_matrix)
         packet.set_base_encoder_position(encoder_pos)
         packet.set_bounding_size(w.item(), h.item())
+        packet.add_angle_to_average(0)
 
         return packet
 
