@@ -7,6 +7,8 @@ import multiprocessing.managers
 # Third party libraries
 import cv2
 import numpy as np
+from ultralytics import YOLO
+from pathlib import Path
 
 # Local
 from robot_cell.control.control_state_machine import RobotStateMachine
@@ -16,12 +18,27 @@ from robot_cell.detection.realsense_depth import DepthCamera
 from robot_cell.detection.packet_detector import PacketDetector
 from robot_cell.detection.apriltag_detection import ProcessingApriltag
 from robot_cell.detection.threshold_detector import ThresholdDetector
+from robot_cell.detection.YOLO_detector import YOLODetector
+from robot_cell.detection.YOLO_detector_Kalman import YOLODetector_Kalman
 from robot_cell.packet.packet_object import Packet
 from robot_cell.packet.item_tracker import ItemTracker
 from robot_cell.packet.grip_position_estimation import GripPositionEstimation
 from robot_cell.graphics_functions import drawText
 from robot_cell.graphics_functions import colorizeDepthFrame
 from robot_cell.graphics_functions import show_boot_screen
+
+
+
+
+font = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (1750, 25)
+fontScale = 1
+fontColor = (0, 0, 255)
+thickness = 2
+lineType = 2
+prev_frame_time= 0
+
+
 
 
 def packet_tracking(
@@ -117,7 +134,10 @@ def draw_frame(
             )
 
             # Draw packet ID and type
-            text_id = f"ID {packet.id}, Type {packet.type}"
+            if packet.class_name:
+                text_id = f"ID {packet.id}, Type {packet.type}, Class {packet.class_name}"
+            else: 
+                text_id = f"ID {packet.id}, Type {packet.type}"
             drawText(
                 image_frame,
                 text_id,
@@ -148,17 +168,18 @@ def draw_frame(
             )
 
             # Draw packet angle
-            packet_angle = packet.get_angle()
-            text_angle = f"Angle: {round(packet_angle, 2)} (deg)"
-            drawText(
-                image_frame,
-                text_angle,
-                (
-                    packet.centroid_px.x + 10,
-                    packet.centroid_px.y + int(115 * text_size),
-                ),
-                text_size,
-            )
+            if packet.get_angle():
+                packet_angle = packet.get_angle()
+                text_angle = f"Angle: {round(packet_angle, 2)} (deg)"
+                drawText(
+                    image_frame,
+                    text_angle,
+                    (
+                        packet.centroid_px.x + 10,
+                        packet.centroid_px.y + int(115 * text_size),
+                    ),
+                    text_size,
+                )
 
     # Draw packet depth crop to separate frame
     cv2.imshow("Depth Crop", np.zeros((650, 650)))
@@ -337,6 +358,7 @@ def main_multi_packets(
         "max_z": rob_config.max_z,
         "min_y": rob_config.min_y,
         "max_y": rob_config.max_y,
+        "object_depths": rob_config.object_depths
     }
     state_machine = RobotStateMachine(
         control_pipe,
@@ -360,10 +382,35 @@ def main_multi_packets(
             rob_config.nn1_detection_threshold,
         )
         print("[INFO] NN1 detector started")
+
     elif rob_config.detector_type == "NN2":
-        show_boot_screen("STARTING NEURAL NET...")
-        detector = None  # TODO: Implement new deep detector (init)
-        print("[INFO] NN2 detector started")
+        show_boot_screen("STARTING YOLO NEURAL NET...")
+               
+        try:
+            detector = YOLODetector(
+                rob_config.hsv_ignore_vertical,
+                rob_config.hsv_ignore_horizontal,
+                rob_config.hsv_max_ratio_error,
+                Path(rob_config.yolo_model_path))
+            print("[INFO] NN2 detector started")
+        except FileNotFoundError:
+            print("Model not found, YoloV8n")
+            detector = None  
+    
+    elif rob_config.detector_type == "NN3":
+        show_boot_screen("STARTING KALMAN NEURAL NET...")
+               
+        try:
+            detector = YOLODetector_Kalman(
+                rob_config.hsv_ignore_vertical,
+                rob_config.hsv_ignore_horizontal,
+                rob_config.hsv_max_ratio_error,
+                Path(rob_config.yolo_model_path))
+            print("[INFO] NN3 KALMAN detector started")
+        except FileNotFoundError:
+            print("Model not found, YoloV8n Kalman")
+            detector = None  
+
     elif rob_config.detector_type == "HSV":
         detector = ThresholdDetector(
             rob_config.hsv_ignore_vertical,
@@ -397,7 +444,7 @@ def main_multi_packets(
 
     # Set home position from dictionary on startup
     control_pipe.send(RcData(RcCommand.SET_HOME_POS))
-
+    prev_frame_time= 0
     while True:
         # Start timer for FPS estimation
         cycle_start_time = time.time()
@@ -462,7 +509,7 @@ def main_multi_packets(
                 frame_count = 1
 
             # Set homography in HSV detector
-            if rob_config.detector_type == "HSV":
+            if rob_config.detector_type == "HSV" or rob_config.detector_type == "NN2" or rob_config.detector_type == "NN3":
                 detector.set_homography(homography)
 
         # PACKET DETECTION
@@ -483,9 +530,25 @@ def main_multi_packets(
                 packet.height = packet.height * frame_height
 
         # Detect packets using neural network
+       
+
         elif rob_config.detector_type == "NN2":
-            # TODO: Implement new deep detector (detection)
-            detected_packets = []
+            image_frame, detected_packets, mask = detector.detect_packet_yolo(
+                rgb_frame,
+                encoder_pos,
+                toggles_dict["show_bbox"],
+                image_frame,
+                NN_confidence=0.9,
+                draw_masks=True,
+            )
+            
+        elif rob_config.detector_type == "NN3":
+            image_frame, detected_packets, mask = detector.detect_packet_yolo(
+                rgb_frame,
+                encoder_pos,
+                toggles_dict["show_bbox"],
+                image_frame,
+            )
 
         # Detect packets using HSV thresholding
         elif rob_config.detector_type == "HSV":

@@ -18,9 +18,13 @@ __pycache__/
 **.png
 **.txt
 **.npy
+**.cache
 !cv_pick_place/neural_nets/Dataset/objects_masks_ordered/*.png
 !cv_pick_place/neural_nets/Dataset/objects_pictures_ordered/*.png
 !cv_pick_place/neural_nets/Dataset/background.png
+!testing
+!testing/**.pt
+
 # Distribution / packaging
 runs/
 .Python

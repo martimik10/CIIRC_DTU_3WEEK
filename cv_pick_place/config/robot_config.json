@@ -2,19 +2,19 @@
     "path_robot_positions": {
         "help": "Path to file with predefined robot positions.",
         "arg": "--path-robot-positions",
-        "default": "config/robot_positions.json"
+        "default": "../cv_pick_place/config/robot_positions.json"
     },
 
     "path_homography_points": {
         "help": "Path to file defining world coordinates of april tags.",
         "arg": "--path-homography-points",
-        "default": "config/conveyor_points.json"
+        "default": "../cv_pick_place/config/conveyor_points.json"
     },
 
     "path_camera_config": {
         "help": "Path to file containing camera configuration.",
         "arg": "--path-camera-config",
-        "default": "config/D435_camera_config.json"
+        "default": "../cv_pick_place/config/D435_camera_config.json"
     },
 
     "mode": {
@@ -38,7 +38,7 @@
     "detector_type": {
         "help": "Selection of object detector. Valid values are 'NN1', 'NN2' and 'HSV'.",
         "arg": "--detector-type",
-        "default": "HSV"
+        "default": "NN2"
     },
 
     "verbose": {
@@ -291,5 +291,17 @@
         "help": "List of 3 integer values representing Hue (0 to 179), Saturation (0 to 255), Value (0 to 255) of top threshold for brown color when using the HSV detector.",
         "arg": "--hsv-brown-upper",
         "default": [ 60, 255, 178 ]
+    },
+
+    "yolo_model_path": {
+        "help": "Path to model weights of the YOLOv8 model.",
+        "arg": "--yolo-model-path",
+        "default": "../testing/best_segment_08_01.pt"
+    },
+
+    "object_depths": {
+        "help": "List of depths of objects in millimeters of each class. Index coresponds to list of classes defined in ",
+        "arg": "--object-depths",
+        "default": [ 7.0, 5.0, 5.0, 7.0, 20.0, 10.0, 40.0, 25.0, 45.0, 30.0, 15.0, 35.0 ]
     }
 }

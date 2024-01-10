@@ -2,6 +2,8 @@ import os
 import json
 import argparse
 
+from pathlib import Path
+
 from multiprocessing import Process
 from multiprocessing import Manager
 from multiprocessing import Pipe
@@ -11,8 +13,11 @@ from mult_packets_pick_place import main_multi_packets
 from robot_cell.control.robot_control import RobotControl
 from robot_cell.control.robot_communication import RobotCommunication
 
-ROB_CONFIG_FILE = os.path.join("config", "robot_config.json")
-
+# CWD =os.getcwd()
+# ROB_CONFIG_FILE = os.path.join(CWD,"config/") 
+# ROB_CONFIG_FILE = os.path.join(ROB_CONFIG_FILE,Path("robot_config.json"))
+# ROB_CONFIG_FILE = os.path.join("C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\robot_config.json")
+ROB_CONFIG_FILE = os.path.join(Path(__file__).parent.parent / "cv_pick_place" / "config" / "robot_config.json")
 
 def bool_str(string: str) -> bool:
     """
@@ -24,7 +29,7 @@ def bool_str(string: str) -> bool:
     Returns:
         bool: True, False, depending on contents of the string.
 
-    Raises:
+    Raises:ke
         argparse.ArgumentTypeError: Error in case the string does not contain any of the expected values.
     """
 
@@ -92,7 +97,7 @@ if __name__ == "__main__":
                 param[1]["arg"],
                 default=param[1]["default"],
                 dest=param[0],
-                help=param[1]["help"],
+                help=param[1]["help"],  
                 type=str,
             )
         else:

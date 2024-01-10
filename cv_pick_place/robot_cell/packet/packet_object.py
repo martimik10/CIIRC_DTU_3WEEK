@@ -1,7 +1,7 @@
 import numpy as np
 from math import sqrt
 from collections import namedtuple
-
+from scipy.ndimage import center_of_mass
 
 CM2MM = 10
 
@@ -33,6 +33,12 @@ class Packet:
 
         # Type of the packet
         self.type = None
+
+        # Class of the object for YOLOv8
+        self.predicted_class = None
+
+        # Class name of the object for YOLOv8
+        self.class_name = None
 
         # X Y centroid value in frame pixels,
         # of the position where the packet last last detected by the camera.
@@ -91,10 +97,22 @@ class Packet:
 
         # OBSOLETE PACKET PARAMETERS
         ############################
-
+        self.bb_xmin_px = None
+        self.bb_ymin_px = None
+        self.bb_xmax_px = None
+        self.bb_ymax_px = None
         # Width and height of packet bounding box
         self.width = 0
         self.height = 0
+
+
+
+        
+    def set_bb_px(self,xmin:int,ymin:int,xmax:int,ymax:int) -> None:
+        self.bb_xmin_px = xmin
+        self.bb_ymin_px = ymin
+        self.bb_xmax_px = xmax
+        self.bb_ymax_px = ymax
 
     def set_id(self, packet_id: int) -> None:
         """
@@ -121,6 +139,27 @@ class Packet:
         """
 
         self.type = packet_type
+
+    def set_class(self, predicted_class: int) -> None:
+        """
+        Sets packet class.
+
+        Args:
+            predicted_class (int): Integer representing class of the packet.
+        """
+
+        self.predicted_class = predicted_class
+
+
+    def set_class_name(self, class_name: str) -> None:
+        """
+        Sets packet class.
+
+        Args:
+            predicted_class (int): Integer representing class of the packet.
+        """
+
+        self.class_name = class_name
 
     def set_centroid(self, x: int, y: int) -> None:
         """
@@ -209,7 +248,7 @@ class Packet:
             self.mask = mask
         else:
             if mask.shape != self.mask.shape:
-                print(f"[WARN]: Tried to average two uncompatible sizes")
+                # print(f"[WARN]: Tried to average two uncompatible sizes")
                 return
             self.mask = np.logical_and(mask, self.mask)
 
@@ -320,7 +359,26 @@ class Packet:
         # Transform centroid from centimeters to millimeters
         centroid_mm = self.PointTuple(centroid_cm[0] * CM2MM, centroid_cm[1] * CM2MM)
         return centroid_mm
+    
+    def centroid_from_mask(self):
+        return center_of_mass(self.mask)
+    
+    def get_bb_mm(self) -> tuple[tuple[float,float],tuple[ float,float]]:
+        # Transform point  from pixels to centimeters using a homography matrix
+        xmin_ymin= np.matmul(
+            self.homography_matrix,
+            np.array([self.bb_xmin_px, self.bb_ymin_px, 1]),
+        )
+        xmax_ymax= np.matmul(
+            self.homography_matrix,
+            np.array([self.bb_xmax_px, self.bb_ymax_px, 1]),
+        )
+        return xmin_ymin,xmax_ymax
 
+
+            
+           
+        
     def get_centroid_from_encoder_in_px(
         self, encoder_position: float
     ) -> tuple[int, int]:

@@ -222,29 +222,33 @@ class RobotStateMachine:
         )
         packet_coords = (pick_pos_x, pick_pos_y)
         y_lims = (self.constants["min_y"], self.constants["max_y"])
-        (
-            shift_x,
-            shift_y,
-            pick_pos_z,
-            roll,
-            pitch,
-            yaw,
-            pick_point,
-        ) = self.gpe.estimate_from_packet(packet_to_pick, z_lims, y_lims, packet_coords)
-        if shift_x is not None:
-            print(
-                f"[INFO]: Estimated optimal point:\n\tZ position: {pick_pos_z:.2f}\n\tRPY angles: {roll:.2f}, {pitch:.2f}, {yaw:.2f}"
-            )
-            # NOTE: Pick position is always centroid for now, position estimation pick offsets are ignored
-            # print(
-            #     f"[INFO]: Estimated optimal point:\n\tx, y shifts: {shift_x:.2f}, {shift_y:.2f},\
-            #         \n\tz position: {pick_pos_z:.2f}\n\tRPY angles: {roll:.2f}, {pitch:.2f}, {yaw:.2f}"
-            # )
-            # pick_pos_x += shift_x
-            # pick_pos_y += shift_y
-        else:
-            # No pick position has been found, skip packet
-            return None
+        # (
+        #     shift_x,
+        #     shift_y,
+        #     pick_pos_z,
+        #     roll,
+        #     pitch,
+        #     yaw,
+        #     pick_point,
+        # ) = self.gpe.estimate_from_packet(packet_to_pick, z_lims, y_lims, packet_coords)
+        # if shift_x is not None:
+        #     print(
+        #         f"[INFO]: Estimated optimal point:\n\tZ position: {pick_pos_z:.2f}\n\tRPY angles: {roll:.2f}, {pitch:.2f}, {yaw:.2f}"
+        #     )
+        #     # NOTE: Pick position is always centroid for now, position estimation pick offsets are ignored
+        #     # print(
+        #     #     f"[INFO]: Estimated optimal point:\n\tx, y shifts: {shift_x:.2f}, {shift_y:.2f},\
+        #     #         \n\tz position: {pick_pos_z:.2f}\n\tRPY angles: {roll:.2f}, {pitch:.2f}, {yaw:.2f}"
+        #     # )
+        #     # pick_pos_x += shift_x
+        #     # pick_pos_y += shift_y
+        # else:
+        #     # No pick position has been found, skip packet
+        #     return None
+        pick_pos_z = 0
+        roll = -90
+        pitch = 0
+        yaw = 180
 
         # Check if x is range
         pick_pos_x = np.clip(
@@ -254,12 +258,13 @@ class RobotStateMachine:
         )
         # Check if y is range of conveyor width and adjust accordingly
         pick_pos_y = np.clip(pick_pos_y, 75.0, 470.0)
-        # Offset pick height by position on belt
-        pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
-        pick_pos_z -= 5
+        # # Offset pick height by position on belt
+        # pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
+        # pick_pos_z -= 5
 
-        if pick_pos_z < 5:
-            pick_pos_z = 5
+        pick_pos_z = self.constants["object_depths"][int(packet_to_pick.predicted_class)]
+        if pick_pos_z < 10:
+            pick_pos_z = 10
 
         # self._draw_depth_map(packet_to_pick, pick_pos_z, pick_point, shift_x, shift_y)
         # Change end points of robot
@@ -303,6 +308,7 @@ class RobotStateMachine:
             # Start robot program
             self.cp.send(RcData(RcCommand.START_PROGRAM, True))
             self.previous_packet_type = trajectory_dict["packet_type"]
+            print(trajectory_dict)
 
         return packet_to_pick, trajectory_dict
 

@@ -15,21 +15,15 @@ from dataset.GenerateSyntheticDataset import generate_dataset
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 EPOCHS = 30
-GENERATE_NR_IMAGES = 10
-
-def choose_model(runs_dir:str)->str:
-    """
-     return latest run from directory
-    """
-    dirs= list(os.walk(runs_dir))
-    
-    return dirs[0][1][-1]
+GENERATE_NR_IMAGES = 10000
+GENERATE_NW_DS=True
 
 
 
 
 
-def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/data.yaml")):
+
+def train_detect(mode = "Segment",yaml_data = Path("cv_pick_place/neural_nets/data.yaml")):
         # Load already trained weights
         
         try:
@@ -37,22 +31,26 @@ def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/dat
         except FileNotFoundError:
             print(f"Yaml file is missing {yaml_data}")
         ###########
-        if(dataset_check(generate_dataset=True)):
-             generate_dataset(GENERATE_NR_IMAGES,segmentation=mode=="Segment")
-            #  shutil.copy("cv_pick_place/neural_nets/dataset/data.yaml", "cv_pick_place/neural_nets/dataset/GeneratedDataset/")
-        model_to_use = f'runs/detect/{choose_model("runs/detect")}/weights/best.pt'  # use 'yolov8n.pt' to start fresh
-        ###########
+        if(dataset_check(generate_dataset=GENERATE_NW_DS)):
+            generate_dataset(GENERATE_NR_IMAGES,segmentation=True)
         
-        #if windows put "/" before model_to_use 
-        # curr_os = platform.system()
-        # if curr_os == 'Windows':
-        #     model_to_use = os.path.join("/",model_to_use)
+        if(mode == "Detect"):
+            model_to_use = f'runs/detect/train1/weights/best.pt'  # use 'yolov8n.pt' to start fresh
+            try:
+                model = YOLO(model_to_use)
+            except FileNotFoundError:
+                print("Model not found, retraining from scratch with YoloV8n")
+                model = YOLO('yolov8n.pt')
+        if(mode == "Segment"):
+            model_to_use = f'runs/seg/train1/weights/best.pt'  # use 'yolov8n.pt' to start fresh
+            try:
+                model = YOLO(model_to_use)
+            except FileNotFoundError:
+                print("Model not found, retraining from scratch with YoloV8n")
+                model = YOLO('yolov8n-seg.pt')
+             
+       
         
-        try:
-            model = YOLO(model_to_use)
-        except FileNotFoundError:
-            print("Model not found, retraining from scratch with YoloV8n")
-            model = YOLO('yolov8n.pt')
         
         #check if using cuda
         if torch.cuda.is_available():
@@ -74,3 +72,5 @@ def train_detect(mode = "Detect",yaml_data = Path("cv_pick_place/neural_nets/dat
         # results['Epochs'] = EPOCHS
         # results['Time training'] = end - start
         print("Training finished")
+
+    

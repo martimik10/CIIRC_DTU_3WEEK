@@ -4,10 +4,9 @@ from object_detect.train import train_detect
 
 
 def main():
-    if(TRAIN):
+    if(TRAIN==True):
         train_detect()
-    else:
-        run()
+
 
 
 if __name__ == '__main__':
