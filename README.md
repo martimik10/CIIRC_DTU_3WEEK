@@ -1,5 +1,9 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
 Ultralytics does not install pytorch with cuda by default
+
+![Youtube video pick place](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
+
+
 <details>
   <summary>Path</summary>
 
