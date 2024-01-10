@@ -258,12 +258,13 @@ class RobotStateMachine:
         )
         # Check if y is range of conveyor width and adjust accordingly
         pick_pos_y = np.clip(pick_pos_y, 75.0, 470.0)
-        # Offset pick height by position on belt
-        pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
-        pick_pos_z -= 5
+        # # Offset pick height by position on belt
+        # pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
+        # pick_pos_z -= 5
 
-        if pick_pos_z < 100:
-            pick_pos_z = 100
+        pick_pos_z = self.constants["object_depths"][int(packet_to_pick.predicted_class)]
+        if pick_pos_z < 10:
+            pick_pos_z = 10
 
         # self._draw_depth_map(packet_to_pick, pick_pos_z, pick_point, shift_x, shift_y)
         # Change end points of robot

@@ -358,6 +358,7 @@ def main_multi_packets(
         "max_z": rob_config.max_z,
         "min_y": rob_config.min_y,
         "max_y": rob_config.max_y,
+        "object_depths": rob_config.object_depths
     }
     state_machine = RobotStateMachine(
         control_pipe,
