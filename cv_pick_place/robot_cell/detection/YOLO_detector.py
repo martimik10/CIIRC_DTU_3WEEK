@@ -90,9 +90,14 @@ class YOLODetector:
             c = box.cls.item()
 
         packet = Packet()
-        packet.set_type(0)
         packet.set_class(c)
         packet.set_class_name(self.idx2class[int(c)])
+        if int(c) in (0, 1, 2, 3):
+            packet.set_type(0)
+        elif int(c) in (4, 5, 6, 9):
+            packet.set_type(1)
+        else:
+            packet.set_type(2)
         packet.set_centroid(round(x.item()), round(y.item()))
         packet.set_homography_matrix(self.homography_matrix)
         packet.set_base_encoder_position(encoder_pos)
