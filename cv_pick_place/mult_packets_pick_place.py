@@ -384,7 +384,7 @@ def main_multi_packets(
         print("[INFO] NN1 detector started")
 
     elif rob_config.detector_type == "NN2":
-        show_boot_screen("STARTING NEURAL NET...")
+        show_boot_screen("STARTING YOLO NEURAL NET...")
                
         try:
             detector = YOLODetector(
@@ -539,6 +539,7 @@ def main_multi_packets(
                 toggles_dict["show_bbox"],
                 image_frame,
                 NN_confidence=0.94,
+                draw_masks=True,
             )
             
         elif rob_config.detector_type == "NN3":

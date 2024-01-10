@@ -17,7 +17,7 @@ class YOLODetector:
         ignore_vertical_px: int = 60,
         ignore_horizontal_px: int = 10,
         max_ratio_error: float = 0.1,
-        model_weights_path: Path = Path('C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\utils\\best_segment_08_01.pt')
+        model_weights_path: Path = Path('C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\utils\\best_segment_08_01.pt'),
     ) -> None:
         """
         ThresholdDetector object constructor.
@@ -31,6 +31,14 @@ class YOLODetector:
             brown_lower (list[int]): List of 3 values representing Hue, Saturation, Value bottom threshold for brown color.
             brown_upper (list[int]): List of 3 values representing Hue, Saturation, Value top threshold for brown color.
         """
+        
+        #display
+        self.font = cv2.FONT_HERSHEY_SIMPLEX
+        self.bottomLeftCornerOfText = (0, 315)
+        self.fontScale = 1
+        self.fontColor = (0, 0, 255)
+        self.thickness = 2
+        self.lineType = 2
 
         self.detected_objects = []
         self.homography_matrix = None
@@ -138,6 +146,7 @@ class YOLODetector:
         draw_box: bool = True,
         image_frame: np.ndarray = None,
         NN_confidence: float = 0.7,
+        draw_masks: bool = False
     ) -> tuple[np.ndarray, list[Packet], np.ndarray]:
         """
         Detects packets using YOLO convoluional network in an image.
@@ -167,7 +176,7 @@ class YOLODetector:
         frame_width = rgb_frame.shape[1]
 
         # Get results from current frame
-        results = self.model(rgb_frame, conf=NN_confidence, verbose=False)[0]
+        results = self.model(rgb_frame, verbose=False, conf=NN_confidence)[0]
 
         for res in results:
 
@@ -193,6 +202,15 @@ class YOLODetector:
             bin_mask = mask.type(torch.bool).cpu().detach().numpy()
         except UnboundLocalError:
             bin_mask = np.zeros_like(image_frame).astype(bool)
+            
+            
+        #DISPLAY
+        if draw_masks:
+            annotated_frame = results.plot()
+
+            
+            image_frame = cv2.addWeighted(image_frame, 0.5, annotated_frame, 0.5, 0)
+        #overlay annotated frame with image_frame
 
         return image_frame, self.detected_objects, bin_mask
 
