@@ -538,7 +538,7 @@ def main_multi_packets(
                 encoder_pos,
                 toggles_dict["show_bbox"],
                 image_frame,
-                NN_confidence=0.94,
+                NN_confidence=0.9,
                 draw_masks=True,
             )
             
