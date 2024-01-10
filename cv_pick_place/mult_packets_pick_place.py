@@ -390,8 +390,7 @@ def main_multi_packets(
                 rob_config.hsv_ignore_vertical,
                 rob_config.hsv_ignore_horizontal,
                 rob_config.hsv_max_ratio_error,
-                Path(rob_config.yolo_model_path),
-                show_kalman_visuals=True)
+                Path(rob_config.yolo_model_path))
             print("[INFO] NN2 detector started")
         except FileNotFoundError:
             print("Model not found, YoloV8n")
@@ -538,6 +537,7 @@ def main_multi_packets(
                 encoder_pos,
                 toggles_dict["show_bbox"],
                 image_frame,
+                NN_confidence=0.94,
             )
             
         elif rob_config.detector_type == "NN3":

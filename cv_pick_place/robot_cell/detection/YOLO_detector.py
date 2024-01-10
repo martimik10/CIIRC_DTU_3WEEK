@@ -137,6 +137,7 @@ class YOLODetector:
         encoder_position: float,
         draw_box: bool = True,
         image_frame: np.ndarray = None,
+        NN_confidence: float = 0.7,
     ) -> tuple[np.ndarray, list[Packet], np.ndarray]:
         """
         Detects packets using YOLO convoluional network in an image.
@@ -166,7 +167,7 @@ class YOLODetector:
         frame_width = rgb_frame.shape[1]
 
         # Get results from current frame
-        results = self.model(rgb_frame, verbose=False)[0]
+        results = self.model(rgb_frame, conf=NN_confidence, verbose=False)[0]
 
         for res in results:
 
