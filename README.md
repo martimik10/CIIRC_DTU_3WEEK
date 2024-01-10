@@ -2,6 +2,7 @@ Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli
 Ultralytics does not install pytorch with cuda by default
 
 ![Youtube video pick place](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/watch?v=zVX-cSrUM6I&ab_channel=Mik/0.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
 
 <details>
