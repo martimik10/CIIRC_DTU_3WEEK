@@ -347,10 +347,10 @@ def add_background(basic_background, real_background):
     return image_no_black
 
 
-def generate_image(object_mask_applied, object_name_list, object_mask_list):
+def generate_image(object_mask_applied, object_name_list, object_mask_list,background_path):
     basic_background = 255 * np.ones(shape=(IMAGE_HEIGHT, IMAGE_WIDTH, 3))
 
-    real_background = reshape(cv2.imread("background.png"), w=IMAGE_WIDTH, h=IMAGE_HEIGHT)
+    real_background = reshape(cv2.imread(background_path), w=IMAGE_WIDTH, h=IMAGE_HEIGHT)
 
     number_objects = random.randint(1, MAX_OBJECTS)
 
@@ -443,15 +443,17 @@ def mask_to_polygon(mask):
     return polygon_contour
 
 
-def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=False):
-    
+def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=False,DATASET_DIRECTORY = "dataset/GeneratedDataset/",BACKGROUND_PATH ="dataset/background.png"):
+    """
+    This script generatres ysthentics dataset from  mask an pictures 
+    """
 
     def generate_to_folder(subdir_name, n_images=NUM_IMAGES_TO_GENERATE):
         os.mkdir(DATASET_DIRECTORY + "images/" + subdir_name)
         os.mkdir(DATASET_DIRECTORY + "masks/" + subdir_name)
         os.mkdir(DATASET_DIRECTORY + "labels/" + subdir_name)
         for image_num in range(n_images):
-            image, mask, bbox, classes = generate_image(object_mask_applied_list, object_name_list, object_mask_list)
+            image, mask, bbox, classes = generate_image(object_mask_applied_list, object_name_list, object_mask_list,BACKGROUND_PATH)
             mask = np.array(mask, dtype=bool)
             cv2.imwrite(DATASET_DIRECTORY + "images/" + subdir_name + "/image_{}.png".format(image_num), image)
             with open(DATASET_DIRECTORY + "masks/" + subdir_name + "/mask_{}.npy".format(image_num), "wb") as f:
@@ -476,14 +478,14 @@ def generate_dataset(custom_num_images=NUM_IMAGES_TO_GENERATE, segmentation=Fals
             txt_file.close()
             print("IMAGE NUMBER {} IS SAVED".format(image_num))
 
-    PATH_PICTURES = "objects_pictures_ordered/"
-    PATH_MASKS = "objects_masks_ordered/"
+    PATH_PICTURES = "dataset/objects_pictures_ordered/"
+    PATH_MASKS = "dataset/objects_masks_ordered/"
     pictures_names_list = sorted(os.listdir(PATH_PICTURES))
     object_mask_applied_list = list()
     object_mask_list = list()
     object_name_list = list()
 
-    DATASET_DIRECTORY = "GeneratedDataset/"
+    
 
     try:
         os.mkdir(DATASET_DIRECTORY)

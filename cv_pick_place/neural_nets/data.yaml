@@ -1,11 +1,3 @@
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-# path: neural_nets\dataset\GeneratedDataset # dataset root dir
-path: C:\Users\Testbed\CIIRC_DTU_3WEEK_NEW\cv_pick_place\neural_nets\dataset\GeneratedDataset
-train: images/train  # train images (relative to 'path') 4 images
-val: images/val  # val images (relative to 'path') 4 images
-#test:  # test images (optional)
-
-# Classes (80 COCO classes)
 names:
   0: brown
   1: small-white
@@ -20,3 +12,7 @@ names:
   10: stainremover
   11: toothpaste
   12: trex
+  69: club_mate
+path: ../cv_pick_place/neural_nets/dataset/GeneratedDataset
+train: images/train
+val: images/val
