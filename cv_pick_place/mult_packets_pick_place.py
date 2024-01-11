@@ -358,7 +358,7 @@ def main_multi_packets(
         "max_z": rob_config.max_z,
         "min_y": rob_config.min_y,
         "max_y": rob_config.max_y,
-        "object_depths": rob_config.object_depths
+        "object_depths": rob_config.NN2_object_depths
     }
     state_machine = RobotStateMachine(
         control_pipe,
@@ -533,16 +533,25 @@ def main_multi_packets(
        
 
         elif rob_config.detector_type == "NN2":
+            '''
+            NOTE: using YoloV8 neural net model with segmentation
+            - used for packets - see cv_pick_place/neural_nets/data.yaml
+            - trained on data generator - see cv_pick_place/neural_nets/Dataset/train.ipynb
+            - Kalman filter WIP - YOLO_detector_Kalman.py
+            - To change confidence, visualizations, detector type, depths
+                -> see cv_pick_place/robot_config.json
+            '''
             image_frame, detected_packets, mask = detector.detect_packet_yolo(
                 rgb_frame,
                 encoder_pos,
                 toggles_dict["show_bbox"],
                 image_frame,
-                NN_confidence=0.9,
-                draw_masks=True,
+                NN_confidence= rob_config.NN2_confidence,
+                draw_masks=rob_config.NN2_draw_masks,
             )
             
         elif rob_config.detector_type == "NN3":
+            "NOTE: not implemented"
             image_frame, detected_packets, mask = detector.detect_packet_yolo(
                 rgb_frame,
                 encoder_pos,

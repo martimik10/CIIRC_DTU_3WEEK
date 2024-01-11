@@ -19,7 +19,7 @@ class YOLODetector_Kalman:
         ignore_vertical_px: int = 60,
         ignore_horizontal_px: int = 10,
         max_ratio_error: float = 0.1,
-        model_weights_path: Path = Path('C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\utils\\best_segment_08_01.pt'),
+        model_weights_path: Path = Path('best_segment_08_01.pt'),
         show_kalman_visuals: bool = False
     ) -> None:
         """

@@ -22,6 +22,7 @@ __pycache__/
 !cv_pick_place/neural_nets/Dataset/objects_masks_ordered/*.png
 !cv_pick_place/neural_nets/Dataset/objects_pictures_ordered/*.png
 !cv_pick_place/neural_nets/Dataset/background.png
+!cv_pick_place/neural_nets/**pt
 !testing
 !testing/**.pt
 
