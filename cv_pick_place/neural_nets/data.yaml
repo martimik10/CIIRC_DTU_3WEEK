@@ -12,7 +12,7 @@ names:
   10: stainremover
   11: toothpaste
   12: trex
-  69: club_mate
+
 path: ../cv_pick_place/neural_nets/dataset/GeneratedDataset
 train: images/train
 val: images/val
