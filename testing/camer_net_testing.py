@@ -27,7 +27,7 @@ def run(frame,model):
 
 if __name__ == "__main__":
     # model_to_use=model_to_use = f'runs/detect/train/weights/best.pt'
-    model_to_use=model_to_use = f'C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\utils\\best_segment_08_01.pt'
+    model_to_use=model_to_use = f'best_segment_08_01.pt'
 
     try:
         model = YOLO(model_to_use)

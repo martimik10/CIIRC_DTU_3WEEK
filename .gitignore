@@ -24,6 +24,7 @@ __pycache__/
 !cv_pick_place/neural_nets/Dataset/background.png
 !testing
 !testing/**.pt
+!neural_nets/**pt
 
 # Distribution / packaging
 runs/
