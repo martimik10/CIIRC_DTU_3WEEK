@@ -13,10 +13,7 @@ from mult_packets_pick_place import main_multi_packets
 from robot_cell.control.robot_control import RobotControl
 from robot_cell.control.robot_communication import RobotCommunication
 
-# CWD =os.getcwd()
-# ROB_CONFIG_FILE = os.path.join(CWD,"config/") 
-# ROB_CONFIG_FILE = os.path.join(ROB_CONFIG_FILE,Path("robot_config.json"))
-# ROB_CONFIG_FILE = os.path.join("C:\\Users\\Testbed\\CIIRC_DTU_3WEEK_NEW\\cv_pick_place\\config\\robot_config.json")
+
 ROB_CONFIG_FILE = os.path.join(Path(__file__).parent.parent / "cv_pick_place" / "config" / "robot_config.json")
 
 def bool_str(string: str) -> bool:

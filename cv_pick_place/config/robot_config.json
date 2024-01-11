@@ -296,12 +296,24 @@
     "yolo_model_path": {
         "help": "Path to model weights of the YOLOv8 model.",
         "arg": "--yolo-model-path",
-        "default": "../testing/best_segment_08_01.pt"
+        "default": "../neural_nets/best_segment_08_01.pt"
     },
 
-    "object_depths": {
+    "NN2_object_depths": {
         "help": "List of depths of objects in millimeters of each class. Index coresponds to list of classes defined in ",
         "arg": "--object-depths",
         "default": [ 7.0, 5.0, 5.0, 7.0, 20.0, 10.0, 40.0, 25.0, 45.0, 30.0, 15.0, 35.0 ]
+    },
+
+    "NN2_confidence": {
+        "help": "Minimal confidence for detected object to be labeled as a packet when detecting using the NN2 detector. Number beween 0 and 1.",
+        "arg": "--NN2-confidence",
+        "default": 0.9
+    },
+
+    "NN2_draw_masks": {
+        "help": "If True, the NN2 detector will draw masks of detected objects.",
+        "arg": "--NN2-draw-masks",
+        "default": true
     }
 }

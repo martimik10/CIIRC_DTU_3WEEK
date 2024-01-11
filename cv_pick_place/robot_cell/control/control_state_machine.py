@@ -262,7 +262,7 @@ class RobotStateMachine:
         # pick_pos_z = self._offset_packet_depth_by_x(pick_pos_x, pick_pos_z)
         # pick_pos_z -= 5
 
-        pick_pos_z = self.constants["object_depths"][int(packet_to_pick.predicted_class)]
+        pick_pos_z = self.constants["NN2_object_depths"][int(packet_to_pick.predicted_class)]
         if pick_pos_z < 10:
             pick_pos_z = 10
 
