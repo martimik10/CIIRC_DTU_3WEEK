@@ -1,4 +1,6 @@
-TODO NOW: sepsat co je potřeba udělat pro člověka, který převezme tento projekt (natáčení gripperu, robustness neuronky, rychlé přetrénování)
+TODO NOW: 
+
+- sepsat co je potřeba udělat pro člověka, který převezme tento projekt (natáčení gripperu, robustness neuronky, rychlé přetrénování, najít usecase)
 
 - hodit tenhle git do mainu pickplace (public)
 
