@@ -2,6 +2,8 @@ Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli
 Ultralytics does not install pytorch with cuda by default
 
 Click image for pick & place youtube video!
+
+
 [![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
 
