@@ -5,11 +5,12 @@ Click image for pick & place youtube video!
 
 [![DTU_CIIRC_Project_in_Intelligent_Systems](https://github.com/martimik10/CIIRC_DTU_3WEEK_NEW/assets/88324559/4396926d-d59e-4208-9ca0-1096136f39f4)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
-[![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
-
 
 ![yolo-vid-ezgif com-video-to-gif-converter (1)](https://github.com/martimik10/CIIRC_DTU_3WEEK_NEW/assets/88324559/ba49af6b-88ca-482a-84b1-5e120c80799b)
 
+
+
+[![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 Original files for "NEW" repo with original hierarchy:
 <details>
   <summary>Path</summary>
