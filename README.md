@@ -3,6 +3,7 @@ Ultralytics does not install pytorch with cuda by default
 
 Click image for pick & place youtube video!
 
+[![DTU_CIIRC_Project_in_Intelligent_Systems](https://github.com/martimik10/CIIRC_DTU_3WEEK_NEW/assets/88324559/4396926d-d59e-4208-9ca0-1096136f39f4)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
 [![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
