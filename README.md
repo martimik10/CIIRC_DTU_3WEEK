@@ -1,6 +1,6 @@
 TODO NOW: sepsat co je potřeba udělat pro člověka, který převezme tento projekt (natáčení gripperu, robustness neuronky, rychlé přetrénování)
 
-- hodit tenhle git do mainu pickplace
+- hodit tenhle git do mainu pickplace (public)
 
 # Pick & Place Cybertech
 
