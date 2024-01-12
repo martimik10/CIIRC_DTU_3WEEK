@@ -1,5 +1,23 @@
-Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
-Ultralytics does not install pytorch with cuda by default
+# Pick & Place Cybertech
+
+We are adding a brain to Pick & Place Cybertech, using Intel Realsense and the Yolov8 neural network architecture. Our goal is to enhance the capabilities of our technology and provide a more efficient and intelligent solution for upcoming recycling robot project.
+
+## Code Structure
+
+### multi_packets_pick_place.py
+
+This script is where the main logic of our application resides and is called by `pick_place_main.py`. Key components:
+
+- **Neural Network Detector (NN2)**: We're using the YoloV8 neural net model with segmentation for packet detection. The related configuration can be found in `cv_pick_place/neural_nets/data.yaml`.
+
+- **Training**: The model is trained using a data generator. The training notebook can be found at `cv_pick_place/neural_nets/Dataset/train.ipynb`.
+
+- **Kalman Filter**: Work in progress on implementing a Kalman filter for better prediction accuracy. The related script is `YOLO_detector_Kalman.py`.
+
+- **Configuration**: To change the confidence level, visualizations, detector type, and depths, please refer to `cv_pick_place/robot_config.json`.
+
+
+
 
 **Click image for pick & place [youtube]((https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)) video!**
 
