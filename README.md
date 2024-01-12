@@ -1,9 +1,13 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
 Ultralytics does not install pytorch with cuda by default
 
+Click image for pick & place youtube video!
 [![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
 
+![yolo-vid-ezgif com-video-to-gif-converter (1)](https://github.com/martimik10/CIIRC_DTU_3WEEK_NEW/assets/88324559/ba49af6b-88ca-482a-84b1-5e120c80799b)
+
+Original files for "NEW" repo with original hierarchy:
 <details>
   <summary>Path</summary>
 
