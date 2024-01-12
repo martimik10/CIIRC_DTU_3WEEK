@@ -1,3 +1,7 @@
+TODO NOW: sepsat co je potřeba udělat pro člověka, který převezme tento projekt (natáčení gripperu, robustness neuronky, rychlé přetrénování)
+
+- hodit tenhle git do mainu pickplace
+
 # Pick & Place Cybertech
 
 We are adding a brain to Pick & Place Cybertech, using Intel Realsense and the Yolov8 neural network architecture. Our goal is to enhance the capabilities of our technology and provide a more efficient and intelligent solution for upcoming recycling robot project.
