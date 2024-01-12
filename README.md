@@ -1,7 +1,7 @@
 Některé fily jsou přesunuty jako deprecated, pokud bychom s nima dál chtěli pracovat, tak takto vypadá default cesta:
 Ultralytics does not install pytorch with cuda by default
 
-Click image for pick & place youtube video!
+**Click image for pick & place [youtube]((https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)) video!**
 
 [![DTU_CIIRC_Project_in_Intelligent_Systems](https://github.com/martimik10/CIIRC_DTU_3WEEK_NEW/assets/88324559/4396926d-d59e-4208-9ca0-1096136f39f4)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
 
