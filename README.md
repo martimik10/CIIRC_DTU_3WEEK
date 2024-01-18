@@ -1,8 +1,4 @@
-TODO NOW: 
 
-- sepsat co je potřeba udělat pro člověka, který převezme tento projekt (natáčení gripperu, robustness neuronky, rychlé přetrénování, najít usecase)
-
-- hodit tenhle git do mainu pickplace (public)
 
 # Pick & Place Cybertech
 
@@ -35,6 +31,8 @@ This script is where the main logic of our application resides and is called by 
 
 
 [![Youtube video pick place](20240110_172051.jpg)](https://www.youtube.com/watch?v=zVX-cSrUM6I&ab_channel=Mik)
+
+
 Original files for "NEW" repo with original hierarchy:
 <details>
   <summary>Path</summary>
